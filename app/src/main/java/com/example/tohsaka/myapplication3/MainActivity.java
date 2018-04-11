@@ -44,6 +44,21 @@ public class MainActivity extends AppCompatActivity {
         if(ope.charAt(0) == '*') tv.setText(""+(a*b));
         if(ope.charAt(0) == '/') tv.setText(""+(a/b));
     }
+    public void onclickMethod3(View v){
+        EditText edtA = (EditText) findViewById(R.id.editText);
+        EditText edtB = (EditText) findViewById(R.id.editText2);
+        Spinner opr = (Spinner) findViewById(R.id.spinner);
+        TextView tv = (TextView) findViewById(R.id.textView3);
+        String strA = edtA.getText().toString();
+        String strB = edtB.getText().toString();
+        double a = strA.trim().equalsIgnoreCase("") ? 0 : Double.parseDouble(strA);
+        double b = strB.trim().equalsIgnoreCase("") ? 0 : Double.parseDouble(strB);
+        String ope = opr.getSelectedItem().toString();
+        if(ope.charAt(0) == '+') tv.setText(""+(a+b));
+        if(ope.charAt(0) == '-') tv.setText(""+(a-b));
+        if(ope.charAt(0) == '*') tv.setText(""+(a*b));
+        if(ope.charAt(0) == '/') tv.setText(""+(a/b));
+    }
     //public void onclickMethod(View v){
         //TextView tv = (TextView) findViewById(R.id.textView7);
         //Random r = new Random();
