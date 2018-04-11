@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         // 取得偏好設定資料
-        String amount = prefs.getString(PREF_AMOUNT, "10000");
-        txtAmount.setText(amount);
-        float rate = prefs.getFloat(PREF_RATE, 31.5F);
-        txtRate.setText(String.valueOf(rate));
+        //String amount = prefs.getString(PREF_AMOUNT, "10000");
+      //  txtAmount.setText(amount);
+        //float rate = prefs.getFloat(PREF_RATE, 31.5F);
+        //txtRate.setText(String.valueOf(rate));
     }
     @Override
     protected void onPause() {
@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
         // 取得Editor物件
         SharedPreferences.Editor prefEdit = prefs.edit();
         // 存入偏好設定資料至Editor物件
-        prefEdit.putString(PREF_AMOUNT, txtAmount.getText().toString());
-        float rate;
-        rate = (float) Double.parseDouble(txtRate.getText().toString());
-        prefEdit.putFloat(PREF_RATE, rate);
+      //  prefEdit.putString(PREF_AMOUNT, txtAmount.getText().toString());
+      //  float rate;
+      //  rate = (float) Double.parseDouble(txtRate.getText().toString());
+        //.putFloat(PREF_RATE, rate);
         prefEdit.apply(); // 寫入檔案
     }
     //public void onclickMethod(View v){
@@ -86,3 +86,4 @@ public class MainActivity extends AppCompatActivity {
         //tv.setText("REDO");
     //}
 }
+
