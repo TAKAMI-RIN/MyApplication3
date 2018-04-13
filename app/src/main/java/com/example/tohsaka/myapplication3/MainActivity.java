@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         // 取得Editor物件
-
         SharedPreferences.Editor prefEdit = prefs.edit();
         // 存入偏好設定資料至Editor物件
         //prefEdit.putString(ww);
