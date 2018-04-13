@@ -69,14 +69,9 @@ public class MainActivity extends AppCompatActivity {
         //prefEdit.putString(ww);
       //  float rate;
       //  rate = (float) Double.parseDouble(txtRate.getText().toString());
-        //.putFloat(PREF_RATE, rate);
+        //        //.putFloat(PREF_RATE, rate);
         prefEdit.apply(); // 寫入檔案
     }
-    //public void onclickMethod(View v){
-        //TextView tv = (TextView) findViewById(R.id.textView7);
-    //        //Random r = new Random();
-    //        //number = r.nextInt(10) + 1;
-    //        //tv.setText("REDO");
-    //}
+
 }
 
