@@ -1,5 +1,6 @@
 package com.example.tohsaka.myapplication3;
 //Author:TOOSAKA
+//20180413:4
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
