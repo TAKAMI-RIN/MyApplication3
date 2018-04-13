@@ -1,6 +1,6 @@
 package com.example.tohsaka.myapplication3;
 //Author:TOOSAKA
-//20180413:4
+//20180413:5
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         prefs =	getPreferences(MODE_PRIVATE);
         Button3 = (Button)findViewById(R.id.button3);
         Button3.setOnClickListener(btnRollDiceOnClickLis);
+        Button2 = (Button)findViewById(R.id.button2);
+        Button2.setOnClickListener(btnRollDiceOnClickLis2);
         //Random r = new Random();
         //number = r.nextInt(10) + 1;
     }
@@ -46,13 +48,15 @@ public class MainActivity extends AppCompatActivity {
         if (ope.charAt(0) == '*') tv.setText("" + (a * b));
         if (ope.charAt(0) == '/') tv.setText("" + (a / b));
     }
-    public void click2(View v){
 
-        Intent i = new Intent(MainActivity.this, EditActivity.class);
-        //.putExtra("name", edtName.getText().toString());
-        startActivity(i);
 
-    }
+    private Button.OnClickListener btnRollDiceOnClickLis2 = new Button.OnClickListener() {
+        public void onClick(View v) {
+            Intent i = new Intent(MainActivity.this, EditActivity.class);
+            //.putExtra("name", edtName.getText().toString());
+            startActivity(i);
+        }
+    };
 
 
     //button3按键监听
