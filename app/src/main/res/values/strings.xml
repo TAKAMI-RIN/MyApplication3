@@ -2,5 +2,6 @@
     <string name="app_name">calculate_again</string>
     <string name="method">onclickMethod</string>
     <string name="method2">onclickMethod2</string>
+    <string name="title_activity_edit">EditActivity</string>
 
 </resources>
