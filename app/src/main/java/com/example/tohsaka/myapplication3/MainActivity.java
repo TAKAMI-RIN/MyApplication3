@@ -1,5 +1,6 @@
 package com.example.tohsaka.myapplication3;
 //Author:TOOSAKA
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -43,11 +44,16 @@ public class MainActivity extends AppCompatActivity {
         if (ope.charAt(0) == '/') tv.setText("" + (a / b));
     }
     public void click2(View v){
-        EditText edtA = (EditText) findViewById(R.id.editText);
-        EditText edtB = (EditText) findViewById(R.id.editText2);
-        Spinner opr = (Spinner) findViewById(R.id.spinner);
-        TextView tv = (TextView) findViewById(R.id.textView3);
+//        EditText edtA = (EditText) findViewById(R.id.editText);
+//        EditText edtB = (EditText) findViewById(R.id.editText2);
+//        Spinner opr = (Spinner) findViewById(R.id.spinner);
+//        TextView tv = (TextView) findViewById(R.id.textView3);
         //SQLite develope
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");//设置类型，我这里是任意类型，任意后缀的可以这样写。
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent,1);     //need to start an edit thing
+
 
     }
 
