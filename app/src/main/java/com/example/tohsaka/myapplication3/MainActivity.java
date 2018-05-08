@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         Button3.setOnClickListener(btnRollDiceOnClickLis);
         Button2 = (Button)findViewById(R.id.button2);
         Button2.setOnClickListener(btnRollDiceOnClickLis2);
-        //Random r = new Random();
-        //number = r.nextInt(10) + 1;
     }
 
 //    public void onclickMethod2(View v) {
