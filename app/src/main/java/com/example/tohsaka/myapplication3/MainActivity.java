@@ -29,6 +29,19 @@ public class MainActivity extends AppCompatActivity {
     private Button Button2;
     private SharedPreferences prefs;
     public char ww = 1;
+
+    //加速度计、陀螺仪、姿态角的数据
+    public static int VAL_ACC_X = 0;
+    public static int VAL_ACC_Y = 0;
+    public static int VAL_ACC_Z = 0;
+    public static int VAL_GYR_X = 0;
+    public static int VAL_GYR_Y = 0;
+    public static int VAL_GYR_Z = 0;
+    public static float VAL_ANG_X = 0;
+    public static float VAL_ANG_Y = 0;
+    public static float VAL_ANG_Z = 0;
+
+
     public static final int MESSAGE_STATIC_CHANGE = 1;
     public static final int MESSAGE_READ = 2;
     public static final int MESSAGE_WRITE = 3;
@@ -184,7 +197,156 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static void DataAnl(byte[] buffer, int bytes) {
+
+    //字符串数据发送函数
+    static void SendData(String message){
+        //确认蓝牙设备是否已连接
+        if(mRfcommClient.getState()!= BluetoothRfcommClient.STATE_CONNECTED){
+            //Toast.makeText(this,"未连接到蓝牙设备", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(message.length() >0 ){
+            byte[] send = message.getBytes();
+            mRfcommClient.write(send);
+        }
+    }
+
+
+    //字符数据发送函数
+    static void SendData_Byte(byte[] data){
+        if(mRfcommClient.getState() != BluetoothRfcommClient.STATE_CONNECTED)
+            return;
+
+        mRfcommClient.write(data);
+    }
+
+
+    //控制命令发送函数
+    static void Send_Command(byte data){
+        byte[] bytes = new byte[6];
+        byte sum = 0;
+
+        if(mRfcommClient.getState() != BluetoothRfcommClient.STATE_CONNECTED)
+            return;
+
+        bytes[0] = (byte)0xaa;
+        bytes[1] = (byte)0xaf;
+        bytes[2] = (byte)0x01;
+        bytes[3] = (byte)0x01;
+        bytes[4] = (byte)data;
+
+        for(int i=0; i<5; i++)
+            sum += bytes[i];
+
+        bytes[5] = sum;
+        SendData_Byte(bytes);
+
+    }
+    static int Buffer_Length = 1000;
+    static byte[] Read = new byte[Buffer_Length];
+    static int ReadLength = 0;//读取的数据长度
+    static int ReadState = 0;//读取数据的状态
+    static int ReadCount = 0;//计数
+
+
+    //数据接收处理函数
+    static void DataAnl(byte[] data, int length){
+        for(int i=0; i<length; i++){
+
+
+            //读第一个AA
+            if(ReadState == 0){
+                if(data[i] == (byte)0xaa){
+                    ReadState = 1;
+                    Read[0] = (byte)0xaa;
+                }
+            }
+
+            //读第二个AA
+            else if(ReadState == 1){
+                if(data[i] == (byte)0xaa){
+                    ReadState = 2;
+                    Read[1] = (byte)0xaa;
+                }
+                else
+                    ReadState = 0;
+            }
+
+
+            else if(ReadState == 2){
+                ReadState = 3;
+                Read[2] = data[i];
+            }
+
+            else if(ReadState == 3){
+                if(data[i] > 45)
+                    ReadState = 0;
+                else{
+                    ReadState = 4;
+                    Read[3] = data[i];
+                    ReadLength = data[i];
+                    if(ReadLength < 0)
+                        ReadLength = -ReadLength;
+                    ReadCount = 4;
+                }
+            }
+
+            else if(ReadState == 4){
+                ReadLength--;
+                Read[ReadCount] = data[i];
+                ReadCount++;
+                if(ReadLength <= 0)
+                    ReadState = 5;
+
+            }
+
+            else if(ReadState == 5){
+                Read[ReadCount] = data[i];
+                if(ReadCount <= (Buffer_Length-1))
+                    FrameAnl(ReadCount+1);
+                ReadState = 0;
+
+
+            }
+        }
+    }
+
+
+    static void FrameAnl(int length){
+        byte sum = 0;
+        for(int i=0; i<(length-1); i++)
+            sum += Read[i];
+        if(sum==Read[length-1])//两个总和值相等
+        {
+
+            if(Read[2]==1)//返回的是加计
+            {
+                VAL_ANG_X = ((float)(BytetoUint(4)))/100;
+                VAL_ANG_Y = ((float)(BytetoUint(6)))/100;
+                VAL_ANG_Z = ((float)(BytetoUint(8)))/100;
+            }
+            if(Read[2]==2)//返回的有加计和陀螺仪
+            {
+                VAL_ACC_X = BytetoUint(4);
+                VAL_ACC_Y = BytetoUint(6);
+                VAL_ACC_Z = BytetoUint(8);
+                VAL_GYR_X = BytetoUint(10);
+                VAL_GYR_Y = BytetoUint(12);
+                VAL_GYR_Z = BytetoUint(14);
+            }
+
+        }
+    }
+
+    static short BytetoUint(int count)
+    {
+        short r = 0;
+        r <<= 8;  //r左移8位
+        r |= (Read[count] & 0x00ff);
+        r <<= 8;
+        r |= (Read[count+1] & 0x00ff);
+        return r;
     }
 }
 
