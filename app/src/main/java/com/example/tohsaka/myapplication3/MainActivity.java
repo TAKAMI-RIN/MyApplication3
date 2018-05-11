@@ -123,9 +123,7 @@ public class MainActivity extends AppCompatActivity {
 //        EditText edtB =  findViewById(R.id.editText2);
 //        Spinner opr =  findViewById(R.id.spinner);
 //        TextView tv =  findViewById(R.id.textView3);
-//        String strA = edtA.getText().toString();
 //        String strB = edtB.getText().toString();
-//        double a = strA.trim().equalsIgnoreCase("") ? 0 : Double.parseDouble(strA);
 //        double b = strB.trim().equalsIgnoreCase("") ? 0 : Double.parseDouble(strB);
 //        String ope = opr.getSelectedItem().toString();
 //        if (ope.charAt(0) == '+') tv.setText("" + (a + b));
